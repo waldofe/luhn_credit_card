@@ -1,4 +1,3 @@
-require 'pry'
 require 'credit_card/pretty_printer'
 
 class TextFilePrinter
