@@ -1,5 +1,5 @@
 class NumberCleaner
   def self.clean(number)
-    number.sub('\n', '').gsub(' ', '').chomp
+    number.gsub(/\D+/, '')
   end
 end
