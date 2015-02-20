@@ -1,75 +1,98 @@
 require 'spec_helper'
 
 describe CreditCard do
-  describe '#valid_number?' do
+  context 'initial attributes' do
+    describe '#number' do
+      context 'when spaced number' do
+        let(:credit_card) { CreditCard.new('3782 8224 6310 005') }
+
+        it 'returns plain number' do
+          expect(credit_card.number).to eq '378282246310005'
+        end
+      end
+
+      context 'when number ends with \n' do
+        let(:credit_card) { CreditCard.new('378282246310005\n') }
+
+        it 'returns plain number' do
+          expect(credit_card.number).to eq '378282246310005'
+        end
+      end
+
+      context 'when spaced number and ends with \n' do
+        let(:credit_card) { CreditCard.new('3782 8224 6310 005\n') }
+
+        it 'returns plain number' do
+          expect(credit_card.number).to eq '378282246310005'
+        end
+      end
+    end
+  end
+
+  describe '#valid?' do
     context 'AMEX' do
       it 'when valid' do
         credit_card = CreditCard.new('3782 8224 6310 005')
-        expect(credit_card.valid_number?).to eq true
+        expect(credit_card.valid?).to eq true
       end
 
       it 'when invalid' do
         credit_card = CreditCard.new('3782 8224 6310 0051')
-        expect(credit_card.valid_number?).to eq false
+        expect(credit_card.valid?).to eq false
       end
     end
 
     context 'VISA' do
       it 'when valid' do
         credit_card = CreditCard.new('4111111111111111')
-        expect(credit_card.valid_number?).to eq true
+        expect(credit_card.valid?).to eq true
       end
 
       it 'when invalid' do
         credit_card = CreditCard.new('4111111111111')
-        expect(credit_card.valid_number?).to eq false
+        expect(credit_card.valid?).to eq false
       end
     end
 
     context 'MasterCard' do
       it 'when valid' do
         credit_card = CreditCard.new('5105105105105100')
-        expect(credit_card.valid_number?).to eq true
+        expect(credit_card.valid?).to eq true
       end
 
       it 'when invalid' do
         credit_card = CreditCard.new('5105105105105106')
-        expect(credit_card.valid_number?).to eq false
+        expect(credit_card.valid?).to eq false
       end
     end
 
     context 'Discover' do
       it 'when valid' do
         credit_card = CreditCard.new('6011111111111117')
-        expect(credit_card.valid_number?).to eq true
+        expect(credit_card.valid?).to eq true
       end
 
       it 'when invalid' do
         credit_card = CreditCard.new('6011 1111 1111 1127')
-        expect(credit_card.valid_number?).to eq false
+        expect(credit_card.valid?).to eq false
       end
     end
   end
 
   describe '#status' do
-    let(:credit_card) do
-      class Klass
-        include LuhnValidator
-      end
-
-      Klass.new
-    end
+    let(:number)      { 'whatever 123' }
+    let(:credit_card) { CreditCard.new(number) }
 
     it 'when true' do
-      allow(credit_card).to receive(:valid_number?).and_return(true)
+      allow(credit_card).to receive(:valid?).and_return(true)
 
-      expect(credit_card.status).to eq 'valid'
+      expect(credit_card.status).to eq :valid
     end
 
     it 'when false' do
-      allow(credit_card).to receive(:valid_number?).and_return(false)
+      allow(credit_card).to receive(:valid?).and_return(false)
 
-      expect(credit_card.status).to eq 'invalid'
+      expect(credit_card.status).to eq :invalid
     end
   end
 
@@ -100,20 +123,9 @@ describe CreditCard do
     end
   end
 
-  describe '#pretty_print' do
-    it 'building' do
-      credit_card = CreditCard.new('4111111111111111')
-
-      allow(credit_card).to receive(:type)   { 'VISA' }
-      allow(credit_card).to receive(:status) { 'valid' }
-
-      expect(credit_card.pretty_print).to eq "VISA: 4111111111111111 (valid)"
-    end
-  end
-
   describe '.pretty_print_from_file(path)' do
     let(:file_path) do
-      File.join(File.dirname(__FILE__), 'credit_cards.txt')
+      File.join(File.dirname(__FILE__), '..', 'support', 'credit_cards.txt')
     end
 
     it 'when path' do
