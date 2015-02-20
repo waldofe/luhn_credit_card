@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    luhn_credit_card (0.0.1)
+    luhn_credit_card (0.0.2)
 
 GEM
   remote: https://rubygems.org/
@@ -35,4 +35,4 @@ DEPENDENCIES
   bundler (~> 1.7)
   luhn_credit_card!
   rspec (~> 3.1, >= 3.1.0)
-  simplecov
+  simplecov (~> 0.9)
