@@ -1,9 +1,9 @@
-require 'credit_card/number_cleaner'
-require 'credit_card/text_file_printer'
-require 'credit_card/type_finder'
-require 'credit_card/luhn_validator'
+require 'luhn_credit_card/number_cleaner'
+require 'luhn_credit_card/text_file_printer'
+require 'luhn_credit_card/type_finder'
+require 'luhn_credit_card/luhn_validator'
 
-class CreditCard
+class LuhnCreditCard
   attr_reader :number
 
   def self.pretty_print_from_file(file_path)
