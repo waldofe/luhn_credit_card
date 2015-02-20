@@ -3,7 +3,7 @@ class LuhnValidator
     @number = number
   end
 
-  def execute
+  def valid?
     number_sum % 10 == 0
   end
 

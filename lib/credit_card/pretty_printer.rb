@@ -1,9 +1,5 @@
 class PrettyPrinter
-  def initialize(card)
-    @card = card
-  end
-
-  def execute
-    "#{@card.type}: #{@card.number} (#{@card.status})"
+  def self.print(card)
+    "#{card.type}: #{card.number} (#{card.status})"
   end
 end

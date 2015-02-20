@@ -124,12 +124,13 @@ describe CreditCard do
   end
 
   describe '.pretty_print_from_file(path)' do
-    let(:file_path) do
-      File.join(File.dirname(__FILE__), '..', 'support', 'credit_cards.txt')
-    end
+    context 'when path is provided' do
+      let(:file_path) do
+        File.join(File.dirname(__FILE__), '..', 'support', 'credit_cards.txt')
+      end
 
-    it 'when path' do
-      expect(CreditCard.pretty_print_from_file(file_path)).to eq(
+      it 'returns formated string with validation info' do
+        expect(CreditCard.pretty_print_from_file(file_path)).to eq(
         "VISA: 4111111111111111 (valid)
 VISA: 4111111111111 (invalid)
 VISA: 4012888888881881 (valid)
@@ -138,7 +139,24 @@ Discover: 6011111111111117 (valid)
 MasterCard: 5105105105105100 (valid)
 MasterCard: 5105105105105106 (invalid)
 Unknown: 9111111111111111 (invalid)"
-      )
+        )
+      end
+    end
+
+    context 'when path is not provided' do
+      it 'returns nil' do
+        expect(CreditCard.pretty_print_from_file(nil)).to be_nil
+      end
+    end
+
+    context 'when path from wrong format txt file is provided' do
+      let(:file_path) do
+        File.join(File.dirname(__FILE__), '..', 'support', 'crazy_file.txt')
+      end
+
+      it 'returns nil' do
+        expect(CreditCard.pretty_print_from_file(file_path)).to be_nil
+      end
     end
   end
 end

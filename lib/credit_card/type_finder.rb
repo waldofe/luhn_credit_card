@@ -6,15 +6,11 @@ class TypeFinder
     'VISA'       => { begins_with: ['4'],             length: [13, 16] }
   }
 
-  def initialize(number)
-    @number = number
-  end
-
-  def execute
+  def self.for(number)
     CHARACTERISTICS.detect do |card, settings|
       return card if settings[:begins_with].detect {
-        |n_start| @number.start_with? n_start
-      } && settings[:length].include?(@number.size)
+        |n_start| number.start_with? n_start
+      } && settings[:length].include?(number.size)
     end
 
     'Unknown'
