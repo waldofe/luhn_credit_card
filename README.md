@@ -1,6 +1,13 @@
+luhn_credit_card
+=====
+
 ### Usage
 
-#### On a single number:
+```
+gem install luhn_credit_card
+```
+
+#### As a single number validator:
 
 ```ruby
 credit_card = LuhnCreditCard.new('4111111111111111')
@@ -10,7 +17,7 @@ credit_card.status # => :valid
 credit_card.valid? # => true
 ```
 
-#### On a file like this (.txt):
+#### As a text file with numbers parser:
 
 ```
 4111111111111111
@@ -37,7 +44,7 @@ MasterCard: 5105105105105106 (invalid)
 Unknown: 9111111111111111 (invalid)"
 ```
 
-### Dev
+### Development
 
 ```
 gem install bundler
